@@ -20,28 +20,13 @@ class Event(models.Model):
 
     title = models.CharField(max_length=200)
 
-    options = models.OneToOneField("EventOptions", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{0} ({1})'.format(self.id, self.title)
-
-    class Meta:
-        ordering = ['options.date']
-
-
-class EventOptions(models.Model):
-    event = models.OneToOneField(
-        "Event",
-        on_delete=models.CASCADE
-    )
-
-    allow_wife = models.BooleanField()
-    allow_family = models.BooleanField()
-    for_kids = models.BooleanField()
-    size = models.IntegerField()
+    allow_wife = models.BooleanField(default=False)
+    allow_family = models.BooleanField(default=False)
+    for_kids = models.BooleanField(default=False)
+    size = models.IntegerField(null=True, blank=True)
     date = models.DateField(null=True, blank=True)
     prepay_date = models.DateField(null=True, blank=True)
-    need_transport = models.BooleanField()
+    need_transport = models.BooleanField(default=False)
     transport = models.CharField(max_length=200, null=True, blank=True)
     transport_size = models.IntegerField(null=True, blank=True)
     main_price = models.IntegerField(null=True, blank=True)
@@ -49,7 +34,10 @@ class EventOptions(models.Model):
     deposit = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.event)
+        return '{0} ({1})'.format(self.id, self.title)
+
+    class Meta:
+        ordering = ['date']
 
 
 class Participant(models.Model):
