@@ -20,8 +20,13 @@ class Event(models.Model):
 
     title = models.CharField(max_length=200)
 
+    options = models.OneToOneField("EventOptions", on_delete=models.CASCADE)
+
     def __str__(self):
         return '{0} ({1})'.format(self.id, self.title)
+
+    class Meta:
+        ordering = ['options.date']
 
 
 class EventOptions(models.Model):
