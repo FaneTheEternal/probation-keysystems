@@ -37,3 +37,10 @@ class EventOptions(models.Model):
     main_price = models.IntegerField()
     other_prices = models.CharField(max_length=200)
     deposit = models.IntegerField()
+
+
+class Participant(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    event = models.ForeignKey("Event", on_delete=models.CASCADE)
+    confirm = models.BooleanField()
+    some_custom_data = models.TextField()
