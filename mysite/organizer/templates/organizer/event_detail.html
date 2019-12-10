@@ -1,0 +1,22 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Title: {{ event.title }}</h1>
+
+    <p><strong>Owner:</strong> {{ event.title }}</p>
+    {% if event.allow_wife %}<p><strong>Wife allowed</strong></p>{% endif %}
+    {% if event.allow_family %}<p><strong>Family allowed</strong></p>{% endif %}
+    {% if event.for_kids %}<p><strong>For kids</strong></p>{% endif %}
+    {% if event.size %}<p><strong>Size: {{ event.size }}</strong></p>{% endif %}
+    {% if event.date %}<p><strong>Date: {{event.date}}</strong></p>{% endif %}
+    {% if event.prepay_date %}<p><strong>Prepay date: {{ event.prepay_date }}</strong></p>{% endif %}
+    {% if event.need_transport %}<p><strong>Need transport</strong></p>{% endif %}
+    {% if event.transport %}<p><strong>Transport: {{ event.transport }}</strong></p>{% endif %}
+    {% if event.transport_size %}<p><strong>Transport size: {{ event.transport_size }}</strong></p>{% endif %}
+    {% if event.main_price %}<p><strong>Main price: {{ event.main_price }}</strong></p>{% endif %}
+    {% if event.other_prices %}<p><strong>Other prices: {{ event.other_prices }}</strong></p>{% endif %}
+    {% if event.deposit %}<p><strong>Deposit: {{ event.deposit }}</strong></p>{% endif %}
+
+    <a href="">Я иду!</a>
+
+{% endblock content %}
