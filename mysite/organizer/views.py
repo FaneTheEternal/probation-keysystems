@@ -17,3 +17,7 @@ def index(request):
 class EventListView(generic.ListView):
     model = Event
     paginate_by = 10
+
+
+class EventDetailView(generic.DetailView):
+    model = Event
