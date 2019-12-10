@@ -20,6 +20,9 @@ class Event(models.Model):
 
     title = models.CharField(max_length=200)
 
+    def __str__(self):
+        return '{0} ({1})'.format(self.id, self.title)
+
 
 class EventOptions(models.Model):
     event = models.OneToOneField(
@@ -40,9 +43,15 @@ class EventOptions(models.Model):
     other_prices = models.CharField(max_length=200, null=True, blank=True)
     deposit = models.IntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return str(self.event)
+
 
 class Participant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey("Event", on_delete=models.CASCADE)
     confirm = models.BooleanField()
     some_custom_data = models.TextField()
+
+    def __str__(self):
+        return '{0} - {1}'.format(str(self.user), str(self.event))
