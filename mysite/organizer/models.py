@@ -34,11 +34,11 @@ class EventOptions(models.Model):
     date = models.DateField(null=True, blank=True)
     prepay_date = models.DateField(null=True, blank=True)
     need_transport = models.BooleanField()
-    transport = models.CharField(max_length=200)
-    transport_size = models.IntegerField()
-    main_price = models.IntegerField()
-    other_prices = models.CharField(max_length=200)
-    deposit = models.IntegerField()
+    transport = models.CharField(max_length=200, null=True, blank=True)
+    transport_size = models.IntegerField(null=True, blank=True)
+    main_price = models.IntegerField(null=True, blank=True)
+    other_prices = models.CharField(max_length=200, null=True, blank=True)
+    deposit = models.IntegerField(null=True, blank=True)
 
 
 class Participant(models.Model):
