@@ -14,6 +14,8 @@ class Event(models.Model):
     owner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     title = models.CharField(max_length=200)
@@ -40,7 +42,7 @@ class EventOptions(models.Model):
 
 
 class Participant(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey("Event", on_delete=models.CASCADE)
     confirm = models.BooleanField()
     some_custom_data = models.TextField()
