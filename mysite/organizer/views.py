@@ -26,13 +26,5 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
     model = Event
 
 
-class UserDetailView(LoginRequiredMixin, generic.ListView):
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
     model = User
-
-    template_name = 'organizer/user_detail.html'
-
-    def get_queryset(self):
-        return Participant\
-            .objects\
-            .filter(user=self.request.user)\
-            .order_by('event.data')
