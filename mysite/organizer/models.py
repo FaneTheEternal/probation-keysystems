@@ -32,6 +32,7 @@ class Event(models.Model):
     main_price = models.IntegerField(null=True, blank=True)
     other_prices = models.CharField(max_length=200, null=True, blank=True)
     deposit = models.IntegerField(null=True, blank=True)
+    some_text = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return '{0} ({1})'.format(self.id, self.title)
@@ -48,3 +49,8 @@ class Participant(models.Model):
 
     def __str__(self):
         return '{0} - {1}'.format(str(self.user), str(self.event))
+
+
+class Moder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey("Event", on_delete=models.CASCADE)
