@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Participant
 
 from .models import Event
@@ -43,3 +45,9 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
         return Participant\
             .objects\
             .filter(user=self.request.user)
+
+
+class ParticipateView(LoginRequiredMixin, CreateView):
+    model = Participant
+    fields = ['some_custom_data']
+    success_url = reverse_lazy('user-events')
