@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.contrib.auth.models import User
+from .models import Participant
 
 from .models import Event
 
@@ -25,8 +26,13 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
     model = Event
 
 
-class UserDetailView(LoginRequiredMixin, generic.DetailView):
+class UserDetailView(LoginRequiredMixin, generic.ListView):
     model = User
 
+    template_name = 'organizer/user_detail.html'
+
     def get_queryset(self):
-        return User.participant_set.all().order_by('event.data')
+        return Participant\
+            .objects\
+            .filter(user=self.request.user)\
+            .order_by('event.data')
