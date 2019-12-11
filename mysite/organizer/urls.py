@@ -18,4 +18,9 @@ urlpatterns = [
         views.EventDetailView.as_view(),
         name='event-detail',
     ),
+    url(
+        r'^user/$',
+        views.UserDetailView.as_view(),
+        name='user-detail',
+    ),
 ]

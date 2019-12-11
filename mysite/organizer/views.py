@@ -27,3 +27,6 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
     model = User
+
+    def get_queryset(self):
+        return User.participant_set.all().order_by('event.data')
