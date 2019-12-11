@@ -23,4 +23,9 @@ urlpatterns = [
         views.UserDetailView.as_view(),
         name='user-detail',
     ),
+    url(
+        r'^user/events/$',
+        views.UserEventsListView.as_view(),
+        name='user-events',
+    ),
 ]
