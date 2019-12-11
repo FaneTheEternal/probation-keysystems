@@ -28,3 +28,13 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
     model = User
+
+
+class UserEventsListView(LoginRequiredMixin, generic.ListView):
+    model = Participant
+
+    def get_queryset(self):
+        return Participant\
+            .objects\
+            .filter(user=self.request.user)\
+            .order_by('date')
