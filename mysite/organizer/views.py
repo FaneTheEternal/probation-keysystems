@@ -50,10 +50,10 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
 @login_required
 def ParticipateView(request, pk):
     user = request.user
-    event = Event.objects.filter(id=pk)
-    confirm = True
-    if event.deposit:
-        confirm = False
+    event = Event.objects.filter(id=pk)[0]
+    confirm = False
+    if event.deposit is None:
+        confirm = True
 
     participant = Participant(
         user=user,
