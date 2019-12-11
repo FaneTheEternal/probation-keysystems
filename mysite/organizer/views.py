@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
+from django.contrib.auth.models import User
 
 from .models import Event
 
@@ -22,3 +23,7 @@ class EventListView(LoginRequiredMixin, generic.ListView):
 
 class EventDetailView(LoginRequiredMixin, generic.DetailView):
     model = Event
+
+
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    model = User
