@@ -40,7 +40,7 @@ class Event(models.Model):
         return '{0} ({1})'.format(self.id, self.title)
 
     def get_absolute_url(self):
-        return reverse("event-detail", kwargs={"pk": self.id})
+        return reverse("event-detail", args=[str(self.id)])
 
     class Meta:
         ordering = ['date']

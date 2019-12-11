@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Title: {{ event.title }}</h1>
 
-    <p><strong>Owner:</strong> {{ event.title }}</p>
+    <p><strong>Owner:</strong> {{ event.owner.first_name }}</p>
     {% if event.allow_wife %}<p><strong>Wife allowed</strong></p>{% endif %}
     {% if event.allow_family %}<p><strong>Family allowed</strong></p>{% endif %}
     {% if event.for_kids %}<p><strong>For kids</strong></p>{% endif %}
@@ -18,6 +18,6 @@
     {% if event.deposit %}<p><strong>Deposit: {{ event.deposit }}</strong></p>{% endif %}
     {% if event.some_text %}<p>{{ event.some_text }}</p>{% endif %}
 
-    <a href="">Я иду!</a>
+    <a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a>
 
 {% endblock content %}

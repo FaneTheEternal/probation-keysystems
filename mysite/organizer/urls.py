@@ -28,4 +28,9 @@ urlpatterns = [
         views.UserEventsListView.as_view(),
         name='user-events',
     ),
+    url(
+        r'event/(?P<pk>\d+)/partic/',
+        views.ParticipateView,
+        name='i-do-event',
+    ),
 ]

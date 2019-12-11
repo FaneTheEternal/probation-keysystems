@@ -47,7 +47,20 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
             .filter(user=self.request.user)
 
 
-class ParticipateView(LoginRequiredMixin, CreateView):
-    model = Participant
-    fields = ['some_custom_data']
-    success_url = reverse_lazy('user-events')
+@login_required
+def ParticipateView(request, pk):
+    user = request.user
+    event = Event.objects.filter(id=pk)
+    confirm = True
+    if event.deposit:
+        confirm = False
+
+    participant = Participant(
+        user=user,
+        event=event,
+        confirm=confirm,
+        some_custom_data='',
+    )
+
+    participant.save()
+    return reverse_lazy('user-events')
