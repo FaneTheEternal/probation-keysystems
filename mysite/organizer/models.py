@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 import uuid
 
 
@@ -36,6 +37,9 @@ class Event(models.Model):
 
     def __str__(self):
         return '{0} ({1})'.format(self.id, self.title)
+
+    def get_absolute_url(self):
+        return reverse("event-detail", kwargs={"pk": self.id})
 
     class Meta:
         ordering = ['date']
