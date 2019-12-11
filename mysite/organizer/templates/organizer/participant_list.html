@@ -5,11 +5,15 @@
     <div style="margin-left: 20px;margin-top: 20px;">
         <h4>Events</h4>
 
-        {% for partic in participant_list %}
+        {% if participant_list %}
+            {% for partic in participant_list %}
             <hr>
             <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> {% if partic.event.date %} ({{ partic.event.date }}){% endif %}
             <p>{{ partic.event.some_text }}</p>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>You haven't events(9((</p>
+        {% endif %}
 
     </div>
 {% endblock content %}

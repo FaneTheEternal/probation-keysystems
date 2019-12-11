@@ -20,7 +20,7 @@ urlpatterns = [
     ),
     url(
         r'^user/$',
-        views.UserDetailView.as_view(),
+        views.UserDetailView,
         name='user-detail',
     ),
     url(

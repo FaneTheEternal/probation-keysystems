@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.timezone import now
 import uuid
 
 
@@ -25,7 +26,7 @@ class Event(models.Model):
     allow_family = models.BooleanField(default=False)
     for_kids = models.BooleanField(default=False)
     size = models.IntegerField(null=True, blank=True)
-    date = models.DateField(null=True, blank=True)
+    date = models.DateField(default=now)
     prepay_date = models.DateField(null=True, blank=True)
     need_transport = models.BooleanField(default=False)
     transport = models.CharField(max_length=200, null=True, blank=True)
