@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from .models import Event
@@ -14,10 +15,10 @@ def index(request):
     )
 
 
-class EventListView(generic.ListView):
+class EventListView(LoginRequiredMixin, generic.ListView):
     model = Event
     paginate_by = 10
 
 
-class EventDetailView(generic.DetailView):
+class EventDetailView(LoginRequiredMixin, generic.DetailView):
     model = Event
