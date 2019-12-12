@@ -72,7 +72,7 @@ def ParticipateView(request, pk):
 
 
 @login_required
-def ParticipateDeleteVeiw(request, pk):
+def ParticipateDeleteView(request, pk):
     user = request.user
     event = get_object_or_404(Event, pk=pk)
 
