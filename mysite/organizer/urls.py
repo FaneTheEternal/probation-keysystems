@@ -34,8 +34,8 @@ urlpatterns = [
         name='i-do-event',
     ),
     url(
-        r'^event/(?P<pk>\d+)/delete/$',
-        views.ParticipateDeleteView.as_view(),
+        r'^event/(?P<pk>\d+)/delete-partic/$',
+        views.ParticipateDeleteView,
         name='i-remind-event',
     ),
 ]

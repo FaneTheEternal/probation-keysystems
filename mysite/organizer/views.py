@@ -71,6 +71,11 @@ def ParticipateView(request, pk):
     return reverse_lazy('user-events')
 
 
-class ParticipateDeleteView(LoginRequiredMixin, DeleteView):
-    model = Participant
-    success_url = reverse_lazy('user-events')
+@login_required
+def ParticipateDeleteVeiw(request, pk):
+    user = request.user
+    event = get_object_or_404(Event, pk=pk)
+
+    partic = Participant.objects.filter(user=user).filter(event=event)[0]
+    partic.delete()
+    return reverse_lazy('user-events')
