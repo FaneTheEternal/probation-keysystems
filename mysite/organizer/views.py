@@ -30,7 +30,9 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["is_participate"] = Participant.objects.filter(event=context['event']).filter(user=self.request.user).count() != 0
+        context["is_participate"] = Participant.objects\
+            .filter(event=context['event'])\
+            .filter(user=self.request.user).count() != 0
         return context
 
 
@@ -119,3 +121,10 @@ def EventMissingSpaceView(request):
         request,
         'organizer/missing_space_event.html',
     )
+
+
+@login_required
+def ConfirmUserView(request, pk):
+    partic = get_object_or_404(Participant, pk=pk)
+    partic.confirm = True
+    return redirect('event-detail', pk=partic.event.id, permanent=True)

@@ -48,4 +48,9 @@ urlpatterns = [
         views.EventMissingSpaceView,
         name='missing-space-event',
     ),
+    url(
+        r'^event/partic/(?P<pk>\d+)/confirm/$',
+        views.ConfirmUserView,
+        name='partic-confirm',
+    ),
 ]
