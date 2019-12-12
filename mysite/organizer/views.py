@@ -5,6 +5,7 @@ from django.views import generic
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from .models import Participant
 
 from .models import Event
@@ -83,4 +84,25 @@ def ParticipateDeleteView(request, pk):
 
 class EventCreate(LoginRequiredMixin, CreateView):
     model = Event
-    fields = '__all__'
+    fields = [
+        'title',
+        'allow_wife',
+        'allow_family',
+        'for_kids',
+        'size',
+        'date',
+        'prepay_date',
+        'need_transport',
+        'transport',
+        'transport_size',
+        'main_price',
+        'other_prices',
+        'deposit',
+        'some_text',
+    ]
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.owner = self.request.user
+        obj.save()
+        return redirect('event-detail', pk=obj.id, permanent=True)
