@@ -2,11 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from .models import Participant
+from .models import Participant, Moder
 
 from .models import Event
 
@@ -30,7 +29,10 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["is_participate"] = Participant.objects\
+        context['is_participate'] = Participant.objects\
+            .filter(event=context['event'])\
+            .filter(user=self.request.user).count() != 0
+        context['is_moder'] = Moder.objects\
             .filter(event=context['event'])\
             .filter(user=self.request.user).count() != 0
         return context
@@ -113,6 +115,38 @@ class EventCreate(LoginRequiredMixin, CreateView):
         obj.owner = self.request.user
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
+
+
+class EventUpdate(LoginRequiredMixin, UpdateView):
+    model = Event
+    fields = [
+        'title',
+        'allow_wife',
+        'allow_family',
+        'for_kids',
+        'size',
+        'date',
+        'prepay_date',
+        'need_transport',
+        'transport',
+        'transport_size',
+        'main_price',
+        'other_prices',
+        'deposit',
+        'some_text',
+    ]
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        if obj.owner != self.request.user:
+            raise PermissionDenied
+        obj.save()
+        return redirect('event-detail', pk=obj.id, permanent=True)
+
+
+class EventDelete(LoginRequiredMixin, DeleteView):
+    model = Event
+    success_url = reverse_lazy('events')
 
 
 @login_required

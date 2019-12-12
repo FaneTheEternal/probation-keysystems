@@ -27,7 +27,7 @@
 
     {% if user.id == event.owner.id %}
         {% for partic in event.participant_set.all %}
-            <p>{{ partic.user.first_name }} {{ partic.user.secons_name }} <strong>{% if partic.cofirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
+            <p>{{ partic.user.first_name }} {{ partic.user.secons_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
         {% endfor %}
     {% endif %}
     
