@@ -111,3 +111,11 @@ class EventCreate(LoginRequiredMixin, CreateView):
         obj.owner = self.request.user
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
+
+
+@login_required
+def EventMissingSpaceView(request):
+    return render(
+        request,
+        'organizer/missing_space_event.html',
+    )

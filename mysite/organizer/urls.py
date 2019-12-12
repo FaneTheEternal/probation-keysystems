@@ -43,4 +43,9 @@ urlpatterns = [
         views.EventCreate.as_view(),
         name='event-create',
     ),
+    url(
+        r'^event/missing-space/$',
+        views.EventMissingSpaceView,
+        name='missing-space-event',
+    ),
 ]
