@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
@@ -55,7 +55,7 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
 @login_required
 def ParticipateView(request, pk):
     user = request.user
-    event = Event.objects.filter(id=pk)[0]
+    event = get_object_or_404(Event, pk=pk)
     confirm = False
     if event.deposit is None:
         confirm = True
@@ -69,3 +69,8 @@ def ParticipateView(request, pk):
 
     participant.save()
     return reverse_lazy('user-events')
+
+
+class ParticipateDeleteView(LoginRequiredMixin, DeleteView):
+    model = Participant
+    success_url = reverse_lazy('user-events')

@@ -20,6 +20,7 @@
 
     {% if is_participate %}
         <h4><strong>Вы записаны</strong></h4>
+        <a href="">Не хочу</a>
     {% else %}
         <a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a>
     {% endif %}
