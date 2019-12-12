@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
@@ -68,7 +68,7 @@ def ParticipateView(request, pk):
     )
 
     participant.save()
-    return reverse_lazy('user-events')
+    return redirect('user-events', permanent=True)
 
 
 @login_required
@@ -78,4 +78,4 @@ def ParticipateDeleteView(request, pk):
 
     partic = Participant.objects.filter(user=user).filter(event=event)[0]
     partic.delete()
-    return reverse_lazy('user-events')
+    return redirect('user-events', permanent=True)
