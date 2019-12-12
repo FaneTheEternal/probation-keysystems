@@ -20,16 +20,17 @@
 
     {% if is_participate %}
         <h4><strong>Вы записаны</strong></h4>
-        <a href="{% url 'i-remind-event' pk=event.id %}">Не хочу</a>
+        <p><a href="{% url 'i-remind-event' pk=event.id %}">Не хочу</a></p>
     {% else %}
-        <a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a>
+        <p><a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a></p>
     {% endif %}
 
     {% if user.id == event.owner.id %}
-        <a href="{% url 'event-update' pk=event.id %}">Изменить</a>
-        <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>
-        
+        <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>| <a href="">Добавить модератора</a></p>
+    {% endif %}
+    {% if user.id == event.owner.id or is_moder %}
         {% for partic in event.participant_set.all %}
+            <hr>
             <p>{{ partic.user.first_name }} {{ partic.user.secons_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
         {% endfor %}
     {% endif %}
