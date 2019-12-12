@@ -18,6 +18,11 @@
     {% if event.deposit %}<p><strong>Deposit: {{ event.deposit }}</strong></p>{% endif %}
     {% if event.some_text %}<p>{{ event.some_text }}</p>{% endif %}
 
-    <a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a>
+    {% if is_participate %}
+        <h4><strong>Вы записаны</strong></h4>
+    {% else %}
+        <a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a>
+    {% endif %}
+    
 
 {% endblock content %}

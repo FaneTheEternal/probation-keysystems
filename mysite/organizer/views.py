@@ -27,6 +27,11 @@ class EventListView(LoginRequiredMixin, generic.ListView):
 class EventDetailView(LoginRequiredMixin, generic.DetailView):
     model = Event
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_participate"] = Participant.objects.filter(event=context['event']).filter(user=self.request.user).count() != 0
+        return context
+
 
 @login_required
 def UserDetailView(request):
