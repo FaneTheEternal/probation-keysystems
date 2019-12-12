@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -57,9 +57,14 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
 def ParticipateView(request, pk):
     user = request.user
     event = get_object_or_404(Event, pk=pk)
+    count_already = Participant.objects.filter(event=event).count()
+    event_size = event.size
     confirm = False
     if event.deposit is None:
         confirm = True
+
+    if event_size and event_size < count_already:
+        return redirect('missing-space-event', permanent=True)
 
     participant = Participant(
         user=user,
