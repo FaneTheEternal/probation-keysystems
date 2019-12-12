@@ -44,6 +44,16 @@ urlpatterns = [
         name='event-create',
     ),
     url(
+        r'^event/(?P<pk>\d+)/update/$',
+        views.EventUpdate.as_view(),
+        name='event-update',
+    ),
+    url(
+        r'^event/(?P<pk>\d+)/delete/$',
+        views.EventDelete.as_view(),
+        name='event-delete',
+    ),
+    url(
         r'^event/missing-space/$',
         views.EventMissingSpaceView,
         name='missing-space-event',

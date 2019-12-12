@@ -26,6 +26,9 @@
     {% endif %}
 
     {% if user.id == event.owner.id %}
+        <a href="{% url 'event-update' pk=event.id %}">Изменить</a>
+        <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>
+        
         {% for partic in event.participant_set.all %}
             <p>{{ partic.user.first_name }} {{ partic.user.secons_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
         {% endfor %}
