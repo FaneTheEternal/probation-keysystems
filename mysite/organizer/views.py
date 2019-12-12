@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import generic
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -79,3 +79,8 @@ def ParticipateDeleteView(request, pk):
     partic = Participant.objects.filter(user=user).filter(event=event)[0]
     partic.delete()
     return redirect('user-events', permanent=True)
+
+
+class EventCreate(LoginRequiredMixin, CreateView):
+    model = Event
+    fields = '__all__'
