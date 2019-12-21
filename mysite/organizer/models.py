@@ -22,14 +22,14 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
+    def get_absolute_url(self):
+        return reverse("user-detail", args=[str(self.id)])
 
-# Create your models here.
+
 class Event(models.Model):
     owner = models.ForeignKey(
         Profile,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.SET_NULL
     )
 
     title = models.CharField(max_length=200)
@@ -67,7 +67,7 @@ class Participant(models.Model):
         "Event",
         on_delete=models.CASCADE)
 
-    confirm = models.BooleanField()
+    confirm = models.BooleanField(default=False)
 
     def __str__(self):
         return '{0} - {1}'.format(str(self.user), str(self.event))
