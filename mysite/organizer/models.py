@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.timezone import now
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Profile(models.Model):
@@ -10,6 +12,15 @@ class Profile(models.Model):
 
     def __str__(self):
         return '{0} {1}'.format(self.user.first_name, self.user.second_name)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instanse, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instanse)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
     class Meta:
         ordering = ['user.first_name']
