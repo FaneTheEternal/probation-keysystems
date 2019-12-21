@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Title: {{ event.title }}</h1>
 
-    <p><strong>Owner:</strong> {{ event.owner.first_name }}</p>
+    <p><strong>Owner:</strong> {{ event.owner.user.first_name }}</p>
     {% if event.allow_wife %}<p><strong>Wife allowed</strong></p>{% endif %}
     {% if event.allow_family %}<p><strong>Family allowed</strong></p>{% endif %}
     {% if event.for_kids %}<p><strong>For kids</strong></p>{% endif %}
@@ -25,13 +25,11 @@
         <p><a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a></p>
     {% endif %}
 
-    {% if user.id == event.owner.id %}
-        <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>| <a href="">Добавить модератора</a></p>
-    {% endif %}
     {% if user.id == event.owner.id or is_moder %}
+        <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a></p>
         {% for partic in event.participant_set.all %}
             <hr>
-            <p>{{ partic.user.first_name }} {{ partic.user.secons_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
+            <p>{{ partic.user.user.first_name }} {{ partic.user.user.second_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
         {% endfor %}
     {% endif %}
     

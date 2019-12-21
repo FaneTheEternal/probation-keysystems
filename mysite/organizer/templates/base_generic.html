@@ -18,12 +18,13 @@
                     {% if user.is_authenticated %}
                         {% block sidebar %}
                         <ul class="sidebar-nav">
-                            <li>User: {{ user.get_username }}</li>
+                            <li>User: {{ user.first_name }} {{ user.second_name }}</li>
                             <li><a href="{% url 'logout' %}">Выйти</a></li>
                             <li><a href="{% url 'index' %}">Home</a></li>
                             <li><a href="{% url 'events' %}">All events</a></li>
                             <li><a href="{% url 'user-events' %}">My events</a></li>
                             <li><a href="{% url 'user-detail' %}">Account</a></li>
+                            {% if user.is_superuser %}<li><a href="">Users</a></li>{% endif %}
                         </ul>
                         {% endblock sidebar %}
                     {% endif %}

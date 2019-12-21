@@ -14,9 +14,9 @@ class Profile(models.Model):
         return '{0} {1}'.format(self.user.first_name, self.user.second_name)
 
     @receiver(post_save, sender=User)
-    def create_user_profile(sender, instanse, created, **kwargs):
+    def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            Profile.objects.create(user=instanse)
+            Profile.objects.create(user=instance)
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):

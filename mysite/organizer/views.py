@@ -31,7 +31,7 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['is_participate'] = Participant.objects\
             .filter(event=context['event'])\
-            .filter(user=self.request.user).count() != 0
+            .filter(user=self.request.user.profile).count() != 0
         return context
 
 
@@ -51,7 +51,7 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Participant\
             .objects\
-            .filter(user=self.request.user)
+            .filter(user=self.request.user.profile)
 
 
 @login_required
@@ -82,7 +82,9 @@ def ParticipateDeleteView(request, pk):
     user = request.user.profile
     event = get_object_or_404(Event, pk=pk)
 
-    partic = Participant.objects.filter(user=user).filter(event=event)[0]
+    partic = Participant.objects\
+        .filter(user=user.profile)\
+        .filter(event=event)[0]
     partic.delete()
     return redirect('user-events', permanent=True)
 
@@ -94,16 +96,16 @@ class EventCreate(LoginRequiredMixin, CreateView):
         'allow_wife',
         'allow_family',
         'for_kids',
-        'size',
-        'date',
+        'number_of_participants',
+        'event_date',
         'prepay_date',
-        'need_transport',
-        'transport',
-        'transport_size',
+        'personal_transportation',
+        'company_transport',
+        'company_transport_size',
         'main_price',
         'other_prices',
         'deposit',
-        'some_text',
+        'some_properties',
     ]
 
     def form_valid(self, form):
@@ -120,16 +122,16 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
         'allow_wife',
         'allow_family',
         'for_kids',
-        'size',
-        'date',
+        'number_of_participants',
+        'event_date',
         'prepay_date',
-        'need_transport',
-        'transport',
-        'transport_size',
+        'personal_transportation',
+        'company_transport',
+        'company_transport_size',
         'main_price',
         'other_prices',
         'deposit',
-        'some_text',
+        'some_properties',
     ]
 
     def form_valid(self, form):
@@ -158,4 +160,5 @@ def EventMissingSpaceView(request):
 def ConfirmUserView(request, pk):
     partic = get_object_or_404(Participant, pk=pk)
     partic.confirm = True
+    partic.save()
     return redirect('event-detail', pk=partic.event.id, permanent=True)
