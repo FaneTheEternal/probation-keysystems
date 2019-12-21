@@ -59,8 +59,14 @@ class Event(models.Model):
 
 
 class Participant(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    event = models.ForeignKey("Event", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE)
+
+    event = models.ForeignKey(
+        "Event",
+        on_delete=models.CASCADE)
+
     confirm = models.BooleanField()
 
     def __str__(self):

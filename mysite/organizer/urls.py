@@ -9,6 +9,20 @@ urlpatterns = [
         name='index'
     ),
     url(
+        r'^account/$',
+        views.UserDetailView,
+        name='user-detail',
+    ),
+    url(
+        r'^account/events/$',
+        views.UserEventsListView.as_view(),
+        name='user-events',
+    ),
+]
+
+# Event list & details
+urlpatterns += [
+    url(
         r'^events/$',
         views.EventListView.as_view(),
         name='events',
@@ -18,40 +32,38 @@ urlpatterns = [
         views.EventDetailView.as_view(),
         name='event-detail',
     ),
+]
+
+# Event create & upd & del
+urlpatterns += [
     url(
-        r'^user/$',
-        views.UserDetailView,
-        name='user-detail',
-    ),
-    url(
-        r'^user/events/$',
-        views.UserEventsListView.as_view(),
-        name='user-events',
-    ),
-    url(
-        r'event/(?P<pk>\d+)/partic/',
-        views.ParticipateView,
-        name='i-do-event',
-    ),
-    url(
-        r'^event/(?P<pk>\d+)/delete-partic/$',
-        views.ParticipateDeleteView,
-        name='i-remind-event',
-    ),
-    url(
-        r'^event/create/$',
+        r'^events/create/$',
         views.EventCreate.as_view(),
         name='event-create',
     ),
     url(
-        r'^event/(?P<pk>\d+)/update/$',
+        r'^events/(?P<pk>\d+)/update/$',
         views.EventUpdate.as_view(),
         name='event-update',
     ),
     url(
-        r'^event/(?P<pk>\d+)/delete/$',
+        r'^events/(?P<pk>\d+)/delete/$',
         views.EventDelete.as_view(),
         name='event-delete',
+    ),
+]
+
+# Event partic
+urlpatterns += [
+    url(
+        r'^event/(?P<pk>\d+)/partic/$',
+        views.ParticipateView,
+        name='i-do-event',
+    ),
+    url(
+        r'^event/(?P<pk>\d+)/not-partic/$',
+        views.ParticipateDeleteView,
+        name='i-remind-event',
     ),
     url(
         r'^event/missing-space/$',
