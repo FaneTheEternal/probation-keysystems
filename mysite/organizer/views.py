@@ -54,41 +54,6 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
             .filter(user=self.request.user.profile)
 
 
-@login_required
-def ParticipateView(request, pk):
-    user = request.user.profile
-    event = get_object_or_404(Event, pk=pk)
-    count_already = event.participant_set.count()
-    number_of_participants = event.number_of_participants
-    confirm = False
-    if event.deposit is None:
-        confirm = True
-
-    if number_of_participants and number_of_participants < count_already:
-        return redirect('missing-space-event', permanent=True)
-
-    participant = Participant(
-        user=user,
-        event=event,
-        confirm=confirm,
-    )
-
-    participant.save()
-    return redirect('user-events', permanent=True)
-
-
-@login_required
-def ParticipateDeleteView(request, pk):
-    user = request.user.profile
-    event = get_object_or_404(Event, pk=pk)
-
-    partic = Participant.objects\
-        .filter(user=user.profile)\
-        .filter(event=event)[0]
-    partic.delete()
-    return redirect('user-events', permanent=True)
-
-
 class EventCreate(LoginRequiredMixin, CreateView):
     model = Event
     fields = [
@@ -148,17 +113,52 @@ class EventDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('events')
 
 
-@login_required
-def EventMissingSpaceView(request):
-    return render(
-        request,
-        'organizer/missing_space_event.html',
-    )
+class CustomEventViews(LoginRequiredMixin):
+    """
+    Views for operations on events
+    """
+    def ConfirmUserView(request, pk):
+        partic = get_object_or_404(Participant, pk=pk)
+        partic.confirm = True
+        partic.save()
+        return redirect(
+            'event-detail',
+            pk=partic.event.id,
+            permanent=True)
 
+    def EventMissingSpaceView(request):
+        return render(
+            request,
+            'organizer/missing_space_event.html',
+        )
 
-@login_required
-def ConfirmUserView(request, pk):
-    partic = get_object_or_404(Participant, pk=pk)
-    partic.confirm = True
-    partic.save()
-    return redirect('event-detail', pk=partic.event.id, permanent=True)
+    def ParticipateView(request, pk):
+        user = request.user.profile
+        event = get_object_or_404(Event, pk=pk)
+        count_already = event.participant_set.count()
+        number_of_participants = event.number_of_participants
+        confirm = False
+        if event.deposit is None:
+            confirm = True
+
+        if number_of_participants and number_of_participants < count_already:
+            return redirect('missing-space-event', permanent=True)
+
+        participant = Participant(
+            user=user,
+            event=event,
+            confirm=confirm,
+        )
+
+        participant.save()
+        return redirect('user-events', permanent=True)
+
+    def ParticipateDeleteView(request, pk):
+        user = request.user.profile
+        event = get_object_or_404(Event, pk=pk)
+
+        partic = Participant.objects\
+            .filter(user=user.profile)\
+            .filter(event=event)[0]
+        partic.delete()
+        return redirect('user-events', permanent=True)
