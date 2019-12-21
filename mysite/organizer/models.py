@@ -29,7 +29,8 @@ class Profile(models.Model):
 class Event(models.Model):
     owner = models.ForeignKey(
         Profile,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True,
     )
 
     title = models.CharField(max_length=200)
@@ -59,7 +60,7 @@ class Event(models.Model):
 
 
 class Participant(models.Model):
-    user = models.ForeignKey(
+    profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE)
 
@@ -70,4 +71,4 @@ class Participant(models.Model):
     confirm = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{0} - {1}'.format(str(self.user), str(self.event))
+        return '{0} - {1}'.format(str(self.profile), str(self.event))
