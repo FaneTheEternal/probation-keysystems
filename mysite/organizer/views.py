@@ -56,22 +56,21 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
 
 @login_required
 def ParticipateView(request, pk):
-    user = request.user
+    user = request.user.profile
     event = get_object_or_404(Event, pk=pk)
-    count_already = Participant.objects.filter(event=event).count()
-    event_size = event.size
+    count_already = event.participant_set.count()
+    number_of_participants = event.number_of_participants
     confirm = False
     if event.deposit is None:
         confirm = True
 
-    if event_size and event_size < count_already:
+    if number_of_participants and number_of_participants < count_already:
         return redirect('missing-space-event', permanent=True)
 
     participant = Participant(
         user=user,
         event=event,
         confirm=confirm,
-        some_custom_data='',
     )
 
     participant.save()
@@ -80,7 +79,7 @@ def ParticipateView(request, pk):
 
 @login_required
 def ParticipateDeleteView(request, pk):
-    user = request.user
+    user = request.user.profile
     event = get_object_or_404(Event, pk=pk)
 
     partic = Participant.objects.filter(user=user).filter(event=event)[0]
@@ -109,7 +108,7 @@ class EventCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        obj.owner = self.request.user
+        obj.owner = self.request.user.profile
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
 
@@ -135,7 +134,8 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        if obj.owner != self.request.user:
+        profile = self.request.user.profile
+        if obj.owner is not profile and not profile.is_moderator:
             raise PermissionDenied
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)

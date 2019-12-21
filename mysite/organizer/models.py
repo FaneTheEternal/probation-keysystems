@@ -22,9 +22,6 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
-    class Meta:
-        ordering = ['user.first_name']
-
 
 # Create your models here.
 class Event(models.Model):
