@@ -5,7 +5,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from .models import Participant, Moder
+from .models import Participant
 
 from .models import Event
 
@@ -30,9 +30,6 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_participate'] = Participant.objects\
-            .filter(event=context['event'])\
-            .filter(user=self.request.user).count() != 0
-        context['is_moder'] = Moder.objects\
             .filter(event=context['event'])\
             .filter(user=self.request.user).count() != 0
         return context
