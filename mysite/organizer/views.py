@@ -74,8 +74,11 @@ class EventCreate(LoginRequiredMixin, CreateView):
     ]
 
     def form_valid(self, form):
+        user = self.request.user
+        if not user.profile.is_moderator:
+            raise PermissionDenied
         obj = form.save(commit=False)
-        obj.owner = self.request.user
+        obj.owner = user
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
 
@@ -102,7 +105,7 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         user = self.request.user
-        if obj.owner is not user and not user.profile.is_moderator:
+        if not user.profile.is_moderator:
             raise PermissionDenied
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
