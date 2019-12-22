@@ -118,6 +118,8 @@ class CustomEventViews(LoginRequiredMixin):
     Views for operations on events
     """
     def ConfirmUserView(request, pk):
+        if not request.user.profile.is_moderator:
+            raise PermissionDenied
         partic = get_object_or_404(Participant, pk=pk)
         partic.confirm = True
         partic.save()
