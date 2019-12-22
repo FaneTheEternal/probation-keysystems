@@ -31,7 +31,7 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['is_participate'] = Participant.objects\
             .filter(event=context['event'])\
-            .filter(user=self.request.user.profile).count() != 0
+            .filter(user=self.request.user).count() != 0
         return context
 
 
@@ -51,7 +51,7 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Participant\
             .objects\
-            .filter(user=self.request.user.profile)
+            .filter(user=self.request.user)
 
 
 class EventCreate(LoginRequiredMixin, CreateView):
@@ -75,7 +75,7 @@ class EventCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        obj.owner = self.request.user.profile
+        obj.owner = self.request.user
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
 
@@ -101,8 +101,8 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        profile = self.request.user.profile
-        if obj.owner is not profile and not profile.is_moderator:
+        user = self.request.user
+        if obj.owner is not user and not user.profile.is_moderator:
             raise PermissionDenied
         obj.save()
         return redirect('event-detail', pk=obj.id, permanent=True)
@@ -133,7 +133,7 @@ class CustomEventViews(LoginRequiredMixin):
         )
 
     def ParticipateView(request, pk):
-        user = request.user.profile
+        user = request.user
         event = get_object_or_404(Event, pk=pk)
         count_already = event.participant_set.count()
         number_of_participants = event.number_of_participants
@@ -154,11 +154,11 @@ class CustomEventViews(LoginRequiredMixin):
         return redirect('user-events', permanent=True)
 
     def ParticipateDeleteView(request, pk):
-        user = request.user.profile
+        user = request.user
         event = get_object_or_404(Event, pk=pk)
 
         partic = Participant.objects\
-            .filter(user=user.profile)\
+            .filter(user=user)\
             .filter(event=event)[0]
         partic.delete()
         return redirect('user-events', permanent=True)

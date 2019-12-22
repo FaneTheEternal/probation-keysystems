@@ -9,13 +9,13 @@ admin.site.register(Event)
 
 @admin.register(Participant)
 class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ('profile', 'event', 'confirm')
-    list_filter = ('profile', 'event')
+    list_display = ('user', 'event', 'confirm')
+    list_filter = ('user', 'event')
     fieldsets = (
         (None, {
             'fields': ('event', 'confirm')
         }),
         ('Availability', {
-            'fields': ('profile',)
+            'fields': ('user',)
         }),
     )

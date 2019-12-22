@@ -8,8 +8,7 @@
         {% if participant_list %}
             {% for partic in participant_list %}
             <hr>
-            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> {% if partic.event.date %} ({{ partic.event.date }}){% endif %}
-            <p>{{ partic.event.some_text }}</p>
+            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> ({{ partic.event.event_date }})
             {% endfor %}
         {% else %}
             <p>You haven't events(9((</p>

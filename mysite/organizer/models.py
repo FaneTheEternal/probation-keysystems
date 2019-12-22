@@ -11,12 +11,13 @@ class Profile(models.Model):
     is_moderator = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{0} {1}'.format(self.user.first_name, self.user.second_name)
+        return '{0} {1}'.format(self.user.first_name, self.user.last_name)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
+        is_moder = instance.is_superuser
         if created:
-            Profile.objects.create(user=instance)
+            Profile.objects.create(user=instance, is_moderator=is_moder)
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
@@ -28,7 +29,7 @@ class Profile(models.Model):
 
 class Event(models.Model):
     owner = models.ForeignKey(
-        Profile,
+        User,
         on_delete=models.SET_NULL,
         null=True,
     )
@@ -42,10 +43,10 @@ class Event(models.Model):
     event_date = models.DateField(default=now)
     prepay_date = models.DateField(null=True, blank=True)
     personal_transportation = models.BooleanField(default=False)
-    company_transport = models.TextField(max_length=200, null=True, blank=True)
+    company_transport = models.TextField(null=True, blank=True)
     company_transport_size = models.IntegerField(null=True, blank=True)
     main_price = models.IntegerField(null=True, blank=True)
-    other_prices = models.CharField(max_length=200, null=True, blank=True)
+    other_prices = models.TextField(null=True, blank=True)
     deposit = models.IntegerField(null=True, blank=True)
     some_properties = models.TextField(null=True, blank=True)
 
@@ -60,8 +61,8 @@ class Event(models.Model):
 
 
 class Participant(models.Model):
-    profile = models.ForeignKey(
-        Profile,
+    user = models.ForeignKey(
+        User,
         on_delete=models.CASCADE)
 
     event = models.ForeignKey(
@@ -71,4 +72,8 @@ class Participant(models.Model):
     confirm = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{0} - {1}'.format(str(self.profile), str(self.event))
+        return '{0} {1} - {2}'.format(
+            str(self.user.first_name),
+            str(self.user.last_name),
+            str(self.event),
+        )

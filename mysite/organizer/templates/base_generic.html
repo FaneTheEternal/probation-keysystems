@@ -18,7 +18,7 @@
                     {% if user.is_authenticated %}
                         {% block sidebar %}
                         <ul class="sidebar-nav">
-                            <li>User: {{ user.first_name }} {{ user.second_name }}</li>
+                            <li>User: {{ user.first_name }} {{ user.last_name }}</li>
                             <li><a href="{% url 'logout' %}">Выйти</a></li>
                             <li><a href="{% url 'index' %}">Home</a></li>
                             <li><a href="{% url 'events' %}">All events</a></li>

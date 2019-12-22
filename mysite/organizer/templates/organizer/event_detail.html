@@ -7,16 +7,16 @@
     {% if event.allow_wife %}<p><strong>Wife allowed</strong></p>{% endif %}
     {% if event.allow_family %}<p><strong>Family allowed</strong></p>{% endif %}
     {% if event.for_kids %}<p><strong>For kids</strong></p>{% endif %}
-    {% if event.size %}<p><strong>Size: {{ event.size }}</strong></p>{% endif %}
-    {% if event.date %}<p><strong>Date: {{event.date}}</strong></p>{% endif %}
+    {% if event.number_of_participants %}<p><strong>Number of participants: {{ event.size }}</strong></p>{% endif %}
+    {% if event.event_date %}<p><strong>Event date: {{event.date}}</strong></p>{% endif %}
     {% if event.prepay_date %}<p><strong>Prepay date: {{ event.prepay_date }}</strong></p>{% endif %}
-    {% if event.need_transport %}<p><strong>Need transport</strong></p>{% endif %}
-    {% if event.transport %}<p><strong>Transport: {{ event.transport }}</strong></p>{% endif %}
-    {% if event.transport_size %}<p><strong>Transport size: {{ event.transport_size }}</strong></p>{% endif %}
+    {% if event.personal_transportation %}<p><strong>Need personal transportation</strong></p>{% endif %}
+    {% if event.company_transport %}<p><strong>Company transport: {{ event.transport }}</strong></p>{% endif %}
+    {% if event.company_transport_size %}<p><strong>Company transport size: {{ event.transport_size }}</strong></p>{% endif %}
     {% if event.main_price %}<p><strong>Main price: {{ event.main_price }}</strong></p>{% endif %}
     {% if event.other_prices %}<p><strong>Other prices: {{ event.other_prices }}</strong></p>{% endif %}
     {% if event.deposit %}<p><strong>Deposit: {{ event.deposit }}</strong></p>{% endif %}
-    {% if event.some_text %}<p>{{ event.some_text }}</p>{% endif %}
+    {% if event.some_properties %}<p>{{ event.some_text }}</p>{% endif %}
 
     {% if is_participate %}
         <h4><strong>Вы записаны</strong></h4>
@@ -29,7 +29,7 @@
         <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a></p>
         {% for partic in event.participant_set.all %}
             <hr>
-            <p>{{ partic.profile.user.first_name }} {{ partic.profile.user.second_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
+            <p>{{ partic.user.first_name }} {{ partic.user.second_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
         {% endfor %}
     {% endif %}
     

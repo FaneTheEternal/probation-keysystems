@@ -7,10 +7,9 @@
     <div style="margin-left: 20px;margin-top: 20px;">
         <h4>Events</h4>
 
-        {% for partic in user.profile.participant_set.all %}
+        {% for partic in user.participant_set.all %}
             <hr>
-            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> {% if partic.event.date %} ({{ partic.event.date }}){% endif %}
-            <p>{{ partic.event.some_text }}</p>
+            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> ({{ partic.event.event_date }})
         {% endfor %}
 
     </div>
