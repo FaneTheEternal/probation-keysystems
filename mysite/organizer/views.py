@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
@@ -36,7 +37,7 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 @login_required
-def UserDetailView(request):
+def user_account_view(request):
     return render(
         request,
         'organizer/user_detail.html',
@@ -167,3 +168,12 @@ class CustomEventViews(LoginRequiredMixin):
             .filter(event=event)[0]
         partic.delete()
         return redirect('user-events', permanent=True)
+
+
+class UsersListView(LoginRequiredMixin, generic.ListView):
+    model = User
+    paginate_by = 10
+
+
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    model = User

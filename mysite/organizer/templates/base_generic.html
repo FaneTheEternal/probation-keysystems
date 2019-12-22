@@ -23,7 +23,7 @@
                             <li><a href="{% url 'index' %}">Home</a></li>
                             <li><a href="{% url 'events' %}">All events</a></li>
                             <li><a href="{% url 'user-events' %}">My events</a></li>
-                            <li><a href="{% url 'user-detail' %}">Account</a></li>
+                            <li><a href="{% url 'account' %}">Account</a></li>
                             {% if user.is_superuser %}<li><a href="">Users</a></li>{% endif %}
                         </ul>
                         {% endblock sidebar %}

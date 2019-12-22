@@ -10,8 +10,8 @@ urlpatterns = [
     ),
     url(
         r'^account/$',
-        views.UserDetailView,
-        name='user-detail',
+        views.user_account_view,
+        name='account',
     ),
     url(
         r'^account/events/$',
