@@ -57,22 +57,22 @@ urlpatterns += [
 urlpatterns += [
     url(
         r'^event/(?P<pk>\d+)/partic/$',
-        views.CustomEventViews.ParticipateView,
+        views.CustomEventViews.do_participate,
         name='i-do-event',
     ),
     url(
         r'^event/(?P<pk>\d+)/not-partic/$',
-        views.CustomEventViews.ParticipateDeleteView,
+        views.CustomEventViews.dont_participate,
         name='i-remind-event',
     ),
     url(
         r'^event/missing-space/$',
-        views.CustomEventViews.EventMissingSpaceView,
+        views.CustomEventViews.event_missing_space,
         name='missing-space-event',
     ),
     url(
         r'^event/partic/(?P<pk>\d+)/confirm/$',
-        views.CustomEventViews.ConfirmUserView,
+        views.CustomEventViews.confirm_partic,
         name='partic-confirm',
     ),
 ]

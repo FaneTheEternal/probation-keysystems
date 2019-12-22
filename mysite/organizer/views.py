@@ -120,7 +120,7 @@ class CustomEventViews(LoginRequiredMixin):
     """
     Views for operations on events
     """
-    def ConfirmUserView(request, pk):
+    def confirm_partic(request, pk):
         if not request.user.profile.is_moderator:
             raise PermissionDenied
         partic = get_object_or_404(Participant, pk=pk)
@@ -131,13 +131,13 @@ class CustomEventViews(LoginRequiredMixin):
             pk=partic.event.id,
             permanent=True)
 
-    def EventMissingSpaceView(request):
+    def event_missing_space(request):
         return render(
             request,
             'organizer/missing_space_event.html',
         )
 
-    def ParticipateView(request, pk):
+    def do_participate(request, pk):
         user = request.user
         event = get_object_or_404(Event, pk=pk)
         count_already = event.participant_set.count()
@@ -158,7 +158,7 @@ class CustomEventViews(LoginRequiredMixin):
         participant.save()
         return redirect('user-events', permanent=True)
 
-    def ParticipateDeleteView(request, pk):
+    def dont_participate(request, pk):
         user = request.user
         event = get_object_or_404(Event, pk=pk)
 
