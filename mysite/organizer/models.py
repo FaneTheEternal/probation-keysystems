@@ -40,7 +40,7 @@ class Event(models.Model):
     allow_family = models.BooleanField(default=False)
     for_kids = models.BooleanField(default=False)
     number_of_participants = models.IntegerField(null=True, blank=True)
-    event_date = models.DateField(default=now)
+    event_date = models.DateField(default=now)  # Излишняя полнота имени?
     prepay_date = models.DateField(null=True, blank=True)
     personal_transportation = models.BooleanField(default=False)
     company_transport = models.TextField(null=True, blank=True)

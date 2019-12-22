@@ -8,7 +8,7 @@
     {% if event.allow_family %}<p><strong>Family allowed</strong></p>{% endif %}
     {% if event.for_kids %}<p><strong>For kids</strong></p>{% endif %}
     {% if event.number_of_participants %}<p><strong>Number of participants: {{ event.size }}</strong></p>{% endif %}
-    {% if event.event_date %}<p><strong>Event date: {{event.date}}</strong></p>{% endif %}
+    {% if event.event_date %}<p><strong>Event date: {{event.event_date}}</strong></p>{% endif %}
     {% if event.prepay_date %}<p><strong>Prepay date: {{ event.prepay_date }}</strong></p>{% endif %}
     {% if event.personal_transportation %}<p><strong>Need personal transportation</strong></p>{% endif %}
     {% if event.company_transport %}<p><strong>Company transport: {{ event.transport }}</strong></p>{% endif %}
