@@ -76,3 +76,17 @@ urlpatterns += [
         name='partic-confirm',
     ),
 ]
+
+# User list & detail
+urlpatterns += [
+    url(
+        r'^users/$',
+        views.UsersListView.as_view(),
+        name='users',
+    ),
+    url(
+        r'^user/(?P<pk>\d+)$',
+        views.UserDetailView.as_view(),
+        name='user-detail',
+    ),
+]

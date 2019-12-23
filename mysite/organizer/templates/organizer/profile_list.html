@@ -1,0 +1,13 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h1>Список пользователей</h1>
+<a href="">Создать пользователя</a>
+<ul>
+    {% for profile in profile_list %}
+    <li>
+        <a href="{{ profile.get_absolute_url }}">{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

@@ -6,7 +6,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from .models import Participant
+from .models import Participant, Profile
 
 from .models import Event
 
@@ -40,7 +40,7 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 def user_account_view(request):
     return render(
         request,
-        'organizer/user_detail.html',
+        'organizer/account_detail.html',
     )
 
 
@@ -171,9 +171,12 @@ class CustomEventViews(LoginRequiredMixin):
 
 
 class UsersListView(LoginRequiredMixin, generic.ListView):
-    model = User
+    model = Profile
     paginate_by = 10
+
+    def get_queryset(self):
+        return Profile.objects.all().order_by('user__first_name')
 
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
-    model = User
+    model = Profile

@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</h1>
+    <p><strong>Email: </strong> {{ profile.user.email }}</p>
+
+    <div style="margin-left: 20px;margin-top: 20px;">
+        <h4>Events</h4>
+
+        {% for partic in profile.user.participant_set.all %}
+            <hr>
+            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> ({{ partic.event.event_date }})
+        {% endfor %}
+
+    </div>
+{% endblock content %}
