@@ -180,3 +180,14 @@ class UsersListView(LoginRequiredMixin, generic.ListView):
 
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
     model = Profile
+
+
+class CustomUserViews():
+    """
+    Custom views for operations on users
+    """
+    def toggle_moderator_status(request, pk):
+        user = get_object_or_404(User, pk=pk)
+        user.profile.is_moderator = not user.profile.is_moderator
+        user.save()
+        return redirect('user-detail', pk=pk)

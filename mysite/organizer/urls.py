@@ -90,3 +90,12 @@ urlpatterns += [
         name='user-detail',
     ),
 ]
+
+# User toggle moderator status
+urlpatterns += [
+    url(
+        r'^user/(?P<pk>\d+)/do-moder$',
+        views.CustomUserViews.toggle_moderator_status,
+        name='toggle-moderator-status',
+    ),
+]
