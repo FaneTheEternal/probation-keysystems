@@ -75,6 +75,11 @@ urlpatterns += [
         views.CustomEventViews.confirm_partic,
         name='partic-confirm',
     ),
+    url(
+        r'^event/partic/(?P<pk>\d+)/not-confirm/$',
+        views.CustomEventViews.not_confirm_partic,
+        name='partic-not-confirm'
+    )
 ]
 
 # User list & detail

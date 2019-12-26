@@ -130,7 +130,20 @@ class CustomEventViews(LoginRequiredMixin):
         return redirect(
             'event-detail',
             pk=partic.event.id,
-            permanent=True)
+            permanent=True,
+        )
+
+    def not_confirm_partic(request, pk):
+        if not request.user.profile.is_moderator:
+            raise PermissionDenied
+        partic = get_object_or_404(Participant, pk=pk)
+        partic.confirm = False
+        partic.save()
+        return redirect(
+            'event-detail',
+            pk=partic.event.id,
+            permanent=True,
+        )
 
     def event_missing_space(request):
         return render(

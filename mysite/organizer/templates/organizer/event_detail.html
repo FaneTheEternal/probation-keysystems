@@ -29,7 +29,7 @@
         <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a></p>
         {% for partic in event.participant_set.all %}
             <hr>
-            <p>{{ partic.user.first_name }} {{ partic.user.second_name }} <strong>{% if partic.confirm %}Confirmed{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Confirm</a>{% endif %}</strong></p>
+            <p>{{ partic.user.first_name }} {{ partic.user.second_name }} <strong>{% if partic.confirm %}<a href="{% url 'partic-not-confirm' pk=partic.id %}">Confirmed</a>{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">No confirmed</a>{% endif %}</strong></p>
         {% endfor %}
     {% endif %}
     
