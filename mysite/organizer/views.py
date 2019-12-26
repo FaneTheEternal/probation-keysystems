@@ -214,6 +214,25 @@ class UserCreate(LoginRequiredMixin, CreateView):
         return redirect('user-detail', pk=obj.id, permanent=True)
 
 
+class UserUpdate(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = [
+        'first_name',
+        'last_name',
+        'email',
+    ]
+
+    template_name = 'organizer/user_form.html'
+
+    def form_valid(self, form):
+        user = self.request.user
+        if not user.is_superuser:
+            raise PermissionDenied
+        obj = form.save(commit=False)
+        obj.save()
+        return redirect('user-detail', pk=obj.id, permanent=True)
+
+
 class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     template_name = 'organizer/user_confirm_delete.html'

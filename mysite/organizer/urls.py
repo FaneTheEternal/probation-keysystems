@@ -108,6 +108,11 @@ urlpatterns += [
         name='user-create',
     ),
     url(
+        r'^user/(?P<pk>\d+)/update$',
+        views.UserUpdate.as_view(),
+        name='user-update',
+    ),
+    url(
         r'^user/(?P<pk>\d+)/delete$',
         views.UserDelete.as_view(),
         name='user-delete',
