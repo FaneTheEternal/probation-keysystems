@@ -99,3 +99,17 @@ urlpatterns += [
         name='toggle-moderator-status',
     ),
 ]
+
+# Users create
+urlpatterns += [
+    url(
+        r'^create-user/$',
+        views.UserCreate.as_view(),
+        name='user-create',
+    ),
+    url(
+        r'^user/(?P<pk>\d+)/delete$',
+        views.UserDelete.as_view(),
+        name='user-delete',
+    ),
+]

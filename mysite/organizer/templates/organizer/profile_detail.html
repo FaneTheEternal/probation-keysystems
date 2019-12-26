@@ -4,6 +4,7 @@
     <h1>{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</h1>
     <p><strong>Email: </strong> {{ profile.user.email }}</p>
     <p><a href="{% url 'toggle-moderator-status' pk=profile.user.id %}">{% if profile.is_moderator %}Убрать права модератора{% else %}Дать права модератора{% endif %}</a></p>
+    <p><a href="{% url 'user-delete' pk=profile.user.id%}">Удалить</a></p>
 
     <div style="margin-left: 20px;margin-top: 20px;">
         <h4>Events</h4>

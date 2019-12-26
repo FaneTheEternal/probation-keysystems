@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Список пользователей</h1>
-<a href="">Создать пользователя</a>
+<a href="{% url 'user-create' %}">Создать пользователя</a>
 <ul>
     {% for profile in profile_list %}
     <li>
