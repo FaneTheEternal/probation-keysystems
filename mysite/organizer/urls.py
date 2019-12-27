@@ -28,7 +28,7 @@ urlpatterns += [
         name='events',
     ),
     url(
-        r'^event/(?P<pk>\d+)$',
+        r'^event/(?P<pk>\d+)/$',
         views.EventDetailView.as_view(),
         name='event-detail',
     ),
@@ -37,17 +37,17 @@ urlpatterns += [
 # Event create & upd & del
 urlpatterns += [
     url(
-        r'^events/create/$',
+        r'^events/create$',
         views.EventCreate.as_view(),
         name='event-create',
     ),
     url(
-        r'^events/(?P<pk>\d+)/update/$',
+        r'^events/(?P<pk>\d+)/update$',
         views.EventUpdate.as_view(),
         name='event-update',
     ),
     url(
-        r'^events/(?P<pk>\d+)/delete/$',
+        r'^events/(?P<pk>\d+)/delete$',
         views.EventDelete.as_view(),
         name='event-delete',
     ),
@@ -56,7 +56,7 @@ urlpatterns += [
 # Event partic
 urlpatterns += [
     url(
-        r'^event/missing-space/$',
+        r'^event/missing-space$',
         views.CustomEventViews.event_missing_space,
         name='missing-space-event',
     ),
@@ -75,7 +75,7 @@ urlpatterns += [
         name='users',
     ),
     url(
-        r'^user/(?P<pk>\d+)$',
+        r'^user/(?P<pk>\d+)/$',
         views.UserDetailView.as_view(),
         name='user-detail',
     ),
@@ -90,10 +90,10 @@ urlpatterns += [
     ),
 ]
 
-# Users create
+# Users create & update & delete
 urlpatterns += [
     url(
-        r'^create-user/$',
+        r'^create-user$',
         views.UserCreate.as_view(),
         name='user-create',
     ),
