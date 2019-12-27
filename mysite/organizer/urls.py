@@ -5,12 +5,12 @@ from django.conf.urls import url
 urlpatterns = [
     url(
         r'^$',
-        views.index,
+        views.CustomViews.index,
         name='index'
     ),
     url(
         r'^account/$',
-        views.user_account_view,
+        views.CustomViews.account_view,
         name='account',
     ),
     url(
@@ -56,30 +56,15 @@ urlpatterns += [
 # Event partic
 urlpatterns += [
     url(
-        r'^event/(?P<pk>\d+)/partic/$',
-        views.CustomEventViews.do_participate,
-        name='i-do-event',
-    ),
-    url(
-        r'^event/(?P<pk>\d+)/not-partic/$',
-        views.CustomEventViews.dont_participate,
-        name='i-remind-event',
-    ),
-    url(
         r'^event/missing-space/$',
         views.CustomEventViews.event_missing_space,
         name='missing-space-event',
     ),
     url(
-        r'^event/partic/(?P<pk>\d+)/confirm/$',
+        r'^event/partic/(?P<pk>\d+)/confirm$',
         views.CustomEventViews.confirm_partic,
         name='partic-confirm',
     ),
-    url(
-        r'^event/partic/(?P<pk>\d+)/not-confirm/$',
-        views.CustomEventViews.not_confirm_partic,
-        name='partic-not-confirm'
-    )
 ]
 
 # User list & detail

@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views import generic
@@ -12,12 +11,21 @@ from .models import Event
 
 
 # Create your views here.
-@login_required
-def index(request):
-    return render(
-        request,
-        'index.html',
-    )
+class CustomViews(LoginRequiredMixin):
+    """
+    Some custom general purpose views
+    """
+    def index(request):
+        return render(
+            request,
+            'index.html',
+        )
+
+    def account_view(request):
+        return render(
+            request,
+            'organizer/account_detail.html',
+        )
 
 
 class EventListView(LoginRequiredMixin, generic.ListView):
@@ -30,18 +38,36 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['is_participate'] = Participant.objects\
-            .filter(event=context['event'])\
+
+        event = context['event']
+        is_participate = Participant.objects\
+            .filter(event=event)\
             .filter(user=self.request.user).count() != 0
+
+        context['is_participate'] = is_participate
         return context
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        event = context['event']
 
-@login_required
-def user_account_view(request):
-    return render(
-        request,
-        'organizer/account_detail.html',
-    )
+        if 'i-do' in request.POST:
+            context['is_participate'] = True
+            confirm = not event.deposit
+            partic = Participant(
+                event=event,
+                user=self.request.user,
+                confirm=confirm,
+                )
+            partic.save()
+        elif 'i-dont' in request.POST:
+            context['is_participate'] = False
+            partic = Participant.objects\
+                .filter(event=event, user=self.request.user)[0]
+            partic.delete()
+
+        return self.render_to_response(context=context)
 
 
 class UserEventsListView(LoginRequiredMixin, generic.ListView):
@@ -133,54 +159,11 @@ class CustomEventViews(LoginRequiredMixin):
             permanent=True,
         )
 
-    def not_confirm_partic(request, pk):
-        if not request.user.profile.is_moderator:
-            raise PermissionDenied
-        partic = get_object_or_404(Participant, pk=pk)
-        partic.confirm = False
-        partic.save()
-        return redirect(
-            'event-detail',
-            pk=partic.event.id,
-            permanent=True,
-        )
-
     def event_missing_space(request):
         return render(
             request,
             'organizer/missing_space_event.html',
         )
-
-    def do_participate(request, pk):
-        user = request.user
-        event = get_object_or_404(Event, pk=pk)
-        count_already = event.participant_set.count()
-        number_of_participants = event.number_of_participants
-        confirm = False
-        if event.deposit is None:
-            confirm = True
-
-        if number_of_participants and number_of_participants < count_already:
-            return redirect('missing-space-event', permanent=True)
-
-        participant = Participant(
-            user=user,
-            event=event,
-            confirm=confirm,
-        )
-
-        participant.save()
-        return redirect('user-events', permanent=True)
-
-    def dont_participate(request, pk):
-        user = request.user
-        event = get_object_or_404(Event, pk=pk)
-
-        partic = Participant.objects\
-            .filter(user=user)\
-            .filter(event=event)[0]
-        partic.delete()
-        return redirect('user-events', permanent=True)
 
 
 class UsersListView(LoginRequiredMixin, generic.ListView):

@@ -18,20 +18,24 @@
     {% if event.deposit %}<p><strong>Deposit: {{ event.deposit }}</strong></p>{% endif %}
     {% if event.some_properties %}<p>{{ event.some_properties }}</p>{% endif %}
 
-    {% if is_participate %}
-        <h4><strong>Вы записаны</strong></h4>
-        <p><a href="{% url 'i-remind-event' pk=event.id %}">Не хочу</a></p>
-    {% else %}
-        <p><a href="{% url 'i-do-event' pk=event.id %}">Я иду!</a></p>
-    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% if is_participate %}
+        <p>Вы записаны</p>
+        <input type="submit" name="i-dont" value="Я не иду">
+        {% else %}
+        <input type="submit" name="i-do" value="Я иду">
+        {% endif %}
+        
+        {% if user.id == event.owner.id or user.profile.is_moderator %}
+            <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a></p>
+            {% for partic in event.participant_set.all %}
+                <hr>
+                <p>{{ partic.user.first_name }} {{ partic.user.last_name }} <strong>{% if partic.confirm %}Подтверждено {% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Подтвердить</a>{% endif %}</strong></p>
+            {% endfor %}
+        {% endif %}
+    </form>
 
-    {% if user.id == event.owner.id or user.profile.is_moderator %}
-        <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a></p>
-        {% for partic in event.participant_set.all %}
-            <hr>
-            <p>{{ partic.user.first_name }} {{ partic.user.second_name }} <strong>{% if partic.confirm %}<a href="{% url 'partic-not-confirm' pk=partic.id %}">Confirmed</a>{% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">No confirmed</a>{% endif %}</strong></p>
-        {% endfor %}
-    {% endif %}
     
 
 {% endblock content %}
