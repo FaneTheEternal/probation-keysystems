@@ -1,13 +1,25 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-<h1>Список пользователей</h1>
-<a href="{% url 'user-create' %}">Создать пользователя</a>
-<ul>
-    {% for profile in profile_list %}
-    <li>
-        <a href="{{ profile.get_absolute_url }}">{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</a>
-    </li>
-    {% endfor %}
+<div class="col-sm-8">
+    <h1>Список пользователей</h1>   
+    <a href="{% url 'user-create' %}">Создать пользователя</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Пользователь</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profile_list %}
+                <tr>
+                    <th scope="row">{{ profile.id }}</th>
+                    <td><a href="{{ profile.get_absolute_url }}">{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </ul>
+</div>
 {% endblock content %}

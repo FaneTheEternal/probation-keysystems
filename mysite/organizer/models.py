@@ -72,8 +72,7 @@ class Participant(models.Model):
     confirm = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{0} {1} - {2}'.format(
+        return '{0} {1}'.format(
             str(self.user.first_name),
             str(self.user.last_name),
-            str(self.event),
         )

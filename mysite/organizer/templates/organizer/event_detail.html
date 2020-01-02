@@ -1,41 +1,70 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-    <h1>Title: {{ event.title }}</h1>
+    <div class="col-sm-8">
+        <h1>Название: {{ event.title }}</h1>
 
-    <p><strong>Owner:</strong> {{ event.owner.user.first_name }}</p>
-    {% if event.allow_wife %}<p><strong>Wife allowed</strong></p>{% endif %}
-    {% if event.allow_family %}<p><strong>Family allowed</strong></p>{% endif %}
-    {% if event.for_kids %}<p><strong>For kids</strong></p>{% endif %}
-    {% if event.number_of_participants %}<p><strong>Number of participants: {{ event.number_of_participants }}</strong></p>{% endif %}
-    {% if event.event_date %}<p><strong>Event date: {{event.event_date}}</strong></p>{% endif %}
-    {% if event.prepay_date %}<p><strong>Prepay date: {{ event.prepay_date }}</strong></p>{% endif %}
-    {% if event.personal_transportation %}<p><strong>Need personal transportation</strong></p>{% endif %}
-    {% if event.company_transport %}<p><strong>Company transport: {{ event.company_transport }}</strong></p>{% endif %}
-    {% if event.company_transport_size %}<p><strong>Company transport size: {{ event.company_transport_size }}</strong></p>{% endif %}
-    {% if event.main_price %}<p><strong>Main price: {{ event.main_price }}</strong></p>{% endif %}
-    {% if event.other_prices %}<p><strong>Other prices: {{ event.other_prices }}</strong></p>{% endif %}
-    {% if event.deposit %}<p><strong>Deposit: {{ event.deposit }}</strong></p>{% endif %}
-    {% if event.some_properties %}<p>{{ event.some_properties }}</p>{% endif %}
+        <p><strong>Создатель:</strong> {{ event.owner.user.first_name }}</p>
+        {% if event.allow_wife %}<p><strong>Можно с женами</strong></p>{% endif %}
+        {% if event.allow_family %}<p><strong>Можно с детьми</strong></p>{% endif %}
+        {% if event.for_kids %}<p><strong>Для детей</strong></p>{% endif %}
+        {% if event.number_of_participants %}<p><strong>Число мест: {{ event.number_of_participants }}</strong></p>{% endif %}
+        {% if event.event_date %}<p><strong>Дата проведения: {{event.event_date}}</strong></p>{% endif %}
+        {% if event.prepay_date %}<p><strong>Дата предоплаты: {{ event.prepay_date }}</strong></p>{% endif %}
+        {% if event.personal_transportation %}<p><strong>Требуется персональный транспорт</strong></p>{% endif %}
+        {% if event.company_transport %}<p><strong>Транспорт компании: {{ event.company_transport }}</strong></p>{% endif %}
+        {% if event.company_transport_size %}<p><strong>Вместительность транспорта компании: {{ event.company_transport_size }}</strong></p>{% endif %}
+        {% if event.main_price %}<p><strong>Основная цена: {{ event.main_price }}</strong></p>{% endif %}
+        {% if event.other_prices %}<p><strong>Остальные цены: {{ event.other_prices }}</strong></p>{% endif %}
+        {% if event.deposit %}<p><strong>Депозит: {{ event.deposit }}</strong></p>{% endif %}
+        {% if event.some_properties %}<p>{{ event.some_properties }}</p>{% endif %}
+    </div>
 
+    <div class="col-sm-8">
+        
     <form action="" method="POST">
         {% csrf_token %}
         {% if is_participate %}
         <p>Вы записаны</p>
-        <input type="submit" name="i-dont" value="Я не иду">
+        <!--input type="submit" name="i-dont" value="Я не иду"-->
+        <button type="submit" class="btn btn-danger" name="i-dont">Я не иду</button>
         {% else %}
-        <input type="submit" name="i-do" value="Я иду">
+        <button type="submit" class="btn btn-success" name="i-do">Я иду</button>
+        <!--input type="submit" name="i-do" value="Я иду"-->
         {% endif %}
         
+        <br>
+        <br>
+
         {% if user.id == event.owner.id or user.profile.is_moderator %}
-            <p><a href="{% url 'event-update' pk=event.id %}">Изменить</a> | <a href="{% url 'event-delete' pk=event.id %}">Удалить</a></p>
-            {% for partic in event.participant_set.all %}
-                <hr>
-                <p>{{ partic.user.first_name }} {{ partic.user.last_name }} <strong>{% if partic.confirm %}Подтверждено {% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Подтвердить</a>{% endif %}</strong></p>
-            {% endfor %}
+        <p>
+            <a href="{% url 'event-update' pk=event.id %}">Изменить</a> | 
+            <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>
+        </p>
+        {% if event.participant_set.all %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Участник</th>
+                        <th scope="col">Подтверждение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partic in event.participant_set.all %}
+                    <tr>
+                        <th scope="row">{{ partic.id }}</th>
+                        <td>{{ partic }}</td>
+                        <td><strong>{% if partic.confirm %}Подтверждено {% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Подтвердить</a>{% endif %}</strong></td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        {% endif %}
         {% endif %}
     </form>
 
-    
+    </div>
 
 {% endblock content %}

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Organizer</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <!--Добавление статических файлов-->
         <!--TO DO-->
@@ -18,13 +17,13 @@
                     {% if user.is_authenticated %}
                         {% block sidebar %}
                         <ul class="sidebar-nav">
-                            <li>User: {% if user.is_superuser %}[ADMIN]{% endif %} {{ user.profile }}</li>
+                            <li>Пользователь: {% if user.is_superuser %}[АДМИН]{% elif user.profile.is_moderator %}[МОДЕРАТОР]{% endif %} {{ user.profile }}</li>
                             <li><a href="{% url 'logout' %}">Выйти</a></li>
-                            <li><a href="{% url 'index' %}">Home</a></li>
-                            <li><a href="{% url 'events' %}">All events</a></li>
-                            <li><a href="{% url 'user-events' %}">My events</a></li>
-                            <li><a href="{% url 'account' %}">Account</a></li>
-                            {% if user.is_superuser %}<li><a href="{% url 'users' %}">Users</a></li>{% endif %}
+                            <li><a href="{% url 'index' %}">Домашняя страница</a></li>
+                            <li><a href="{% url 'events' %}">Все события</a></li>
+                            <li><a href="{% url 'user-events' %}">Мои события</a></li>
+                            <li><a href="{% url 'account' %}">Аккаунт</a></li>
+                            {% if user.is_superuser %}<li><a href="{% url 'users' %}">Пользователи</a></li>{% endif %}
                         </ul>
                         {% endblock sidebar %}
                     {% endif %}
@@ -54,5 +53,8 @@
                 </div>
             </div>
         </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 </html>

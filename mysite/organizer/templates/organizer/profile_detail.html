@@ -1,19 +1,35 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-    <h1>{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</h1>
-    <p><strong>Email: </strong> {{ profile.user.email }}</p>
-    <p><a href="{% url 'toggle-moderator-status' pk=profile.user.id %}">{% if profile.is_moderator %}Убрать права модератора{% else %}Дать права модератора{% endif %}</a></p>
-    <p><a href="{% url 'user-update' pk=profile.user.id%}">Изменить</a></p>
-    <p><a href="{% url 'user-delete' pk=profile.user.id%}">Удалить</a></p>
+    <div class="col-sm-8">
+        <h1>{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</h1>
+        <p><strong>Email: </strong> {{ profile.user.email }}</p>
+        <p><a href="{% url 'toggle-moderator-status' pk=profile.user.id %}">{% if profile.is_moderator %}Убрать права модератора{% else %}Дать права модератора{% endif %}</a></p>
+        <p><a href="{% url 'user-update' pk=profile.user.id%}">Изменить</a></p>
+        <p><a href="{% url 'user-delete' pk=profile.user.id%}">Удалить</a></p>
 
-    <div style="margin-left: 20px;margin-top: 20px;">
-        <h4>Events</h4>
+        <div>
+            <h4>Events</h4>
 
-        {% for partic in profile.user.participant_set.all %}
-            <hr>
-            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> ({{ partic.event.event_date }})
-        {% endfor %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Событие</th>
+                        <th scope="col">Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partic in profile.user.participant_set.all %}
+                        <tr>
+                            <th scope="row">{{ partic.id }}</th>
+                            <td><a href="{{ partic.event.get_absolute_url }}">{{ partic.event }}</a></td>
+                            <td>{{ partic.event.event_date }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
+        </div>
     </div>
 {% endblock content %}

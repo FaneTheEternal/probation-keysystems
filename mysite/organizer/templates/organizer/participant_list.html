@@ -2,16 +2,30 @@
 
 {% block content %}
 
-    <div style="margin-left: 20px;margin-top: 20px;">
-        <h4>Events</h4>
+    <div class="col-sm-8">
+        <h4>События</h4>
 
         {% if participant_list %}
-            {% for partic in participant_list %}
-            <hr>
-            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> ({{ partic.event.event_date }})
-            {% endfor %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Событие</th>
+                        <th scope="col">Дата проведения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partic in participant_list %}
+                    <tr>
+                        <th scope="row">{{ partic.id }}</th>
+                        <td><a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a></td>
+                        <td>{{ partic.event.event_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
-            <p>You haven't events(9((</p>
+            <p>У вас ни в чем не было и нет участий</p>
         {% endif %}
 
     </div>

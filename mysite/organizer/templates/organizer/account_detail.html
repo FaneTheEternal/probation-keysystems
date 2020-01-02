@@ -1,16 +1,8 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-    <p><strong>Email: </strong> {{ user.email }}</p>
-
-    <div style="margin-left: 20px;margin-top: 20px;">
-        <h4>Events</h4>
-
-        {% for partic in user.participant_set.all %}
-            <hr>
-            <a href="{{ partic.event.get_absolute_url }}">{{partic.event}}</a> ({{ partic.event.event_date }})
-        {% endfor %}
-
+    <div class="col-sm-8">
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <p><strong>Email: </strong> {{ user.email }}</p>
     </div>
 {% endblock content %}
