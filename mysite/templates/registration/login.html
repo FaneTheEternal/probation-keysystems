@@ -1,5 +1,7 @@
 {% extends 'base_generic.html' %}
 {% block content %}
+<div class="col-sm-8">
+    
     {% if form.errors %}
         <p>Нет такого Логина и/или пароля. Попробуйте еще раз</p>
     {% endif %}
@@ -14,7 +16,7 @@
 
     <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
-            <table>
+            <table class="table">
                 <tr>
                     <td>{{ form.username.label_tag }}</td>
                     <td>{{ form.username }}</td>
@@ -24,9 +26,11 @@
                     <td>{{ form.password }}</td>
                 </tr>
             </table>
-            <input type="submit" value="login">
+            <!--input type="submit" value="login"-->
+            <button type="submit" class="btn btn-primary">Войти</button>
             <input type="hidden" name="next" value="{{ next }}">
         </form>
     
         <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+</div>
 {% endblock content %}

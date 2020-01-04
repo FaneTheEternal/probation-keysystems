@@ -16,8 +16,11 @@
                 <div class="col-sm-2">
                     {% if user.is_authenticated %}
                         {% block sidebar %}
+                        
                         <ul class="sidebar-nav">
-                            <li>Пользователь: {% if user.is_superuser %}[АДМИН]{% elif user.profile.is_moderator %}[МОДЕРАТОР]{% endif %} {{ user.profile }}</li>
+                            <p class="navbar-text navbar-left">Пользователь:
+                                {% if user.is_superuser %}[АДМИН]{% elif user.profile.is_moderator %}[МОДЕРАТОР]{% endif %} {{ user.profile }}
+                            </p>
                             <li><a href="{% url 'logout' %}">Выйти</a></li>
                             <li><a href="{% url 'index' %}">Домашняя страница</a></li>
                             <li><a href="{% url 'events' %}">Все события</a></li>
