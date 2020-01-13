@@ -53,6 +53,13 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
         event = context['event']
 
         if 'i-do' in request.POST:
+            if event.number_of_participants == event.participant_set.count():
+                return redirect(
+                   'missing-space-event',
+                   pk=event.id,
+                   permanent=True,
+                )
+
             context['is_participate'] = True
             confirm = not event.deposit
             partic = Participant(
@@ -147,10 +154,11 @@ class CustomEventViews(LoginRequiredMixin):
     """
     Views for operations on events
     """
-    def event_missing_space(request):
+    def event_missing_space(request, pk):
         return render(
             request,
             'organizer/missing_space_event.html',
+            {'pk': pk},
         )
 
     def toggle_confirm(request, pk):

@@ -55,7 +55,6 @@
                     <tr>
                         <th scope="row">{{ partic.id }}</th>
                         <td>{{ partic }}</td>
-                        <!--td><strong>{% if partic.confirm %}Подтверждено {% else %}<a href="{% url 'partic-confirm' pk=partic.id %}">Подтвердить</a>{% endif %}</strong></td-->
                         <td><a href="{% url 'toggle-confirm' pk=partic.id %}">{% if partic.confirm %}Отмена{% else %}Подтвердить{% endif %}</a></td>
                     </tr>
                     {% endfor %}

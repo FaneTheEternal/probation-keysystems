@@ -56,7 +56,7 @@ urlpatterns += [
 # Event partic
 urlpatterns += [
     url(
-        r'^event/missing-space$',
+        r'^event/(?P<pk>\d+)/missing-space$',
         views.CustomEventViews.event_missing_space,
         name='missing-space-event',
     ),
