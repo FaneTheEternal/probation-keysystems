@@ -147,23 +147,19 @@ class CustomEventViews(LoginRequiredMixin):
     """
     Views for operations on events
     """
-    def confirm_partic(request, pk):
-        if not request.user.profile.is_moderator:
-            raise PermissionDenied
-        partic = get_object_or_404(Participant, pk=pk)
-        partic.confirm = True
-        partic.save()
-        return redirect(
-            'event-detail',
-            pk=partic.event.id,
-            permanent=True,
-        )
-
     def event_missing_space(request):
         return render(
             request,
             'organizer/missing_space_event.html',
         )
+
+    def toggle_confirm(request, pk):
+        if not request.user.profile.is_moderator:
+            raise PermissionDenied
+        partic = get_object_or_404(Participant, pk=pk)
+        partic.confirm = not partic.confirm
+        partic.save()
+        return redirect('event-detail', pk=partic.event.id)
 
 
 class UsersListView(LoginRequiredMixin, generic.ListView):

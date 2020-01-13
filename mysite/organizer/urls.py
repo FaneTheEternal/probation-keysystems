@@ -61,9 +61,9 @@ urlpatterns += [
         name='missing-space-event',
     ),
     url(
-        r'^event/partic/(?P<pk>\d+)/confirm$',
-        views.CustomEventViews.confirm_partic,
-        name='partic-confirm',
+        r'^partic/(?P<pk>\d+)/toggle-confirm$',
+        views.CustomEventViews.toggle_confirm,
+        name='toggle-confirm',
     ),
 ]
 
