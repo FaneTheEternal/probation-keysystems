@@ -76,3 +76,11 @@ class Participant(models.Model):
             str(self.user.first_name),
             str(self.user.last_name),
         )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'event'],
+                name='unique_partic',
+            ),
+        ]
