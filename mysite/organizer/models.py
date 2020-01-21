@@ -57,7 +57,7 @@ class Event(models.Model):
         return reverse("event-detail", args=[str(self.id)])
 
     class Meta:
-        ordering = ['event_date']
+        ordering = ['-event_date', 'title']
 
 
 class Participant(models.Model):

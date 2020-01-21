@@ -85,7 +85,8 @@ class UserEventsListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Participant\
             .objects\
-            .filter(user=self.request.user)
+            .filter(user=self.request.user)\
+            .order_by('event')
 
 
 class EventCreate(LoginRequiredMixin, CreateView):
