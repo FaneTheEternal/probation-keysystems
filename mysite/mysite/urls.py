@@ -31,4 +31,8 @@ urlpatterns += [
     path('', RedirectView.as_view(url='/organizer/', permanent=True)),
 ]
 
+urlpatterns += [
+    path('uszver/', include('uszver.urls')),
+]
+
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
