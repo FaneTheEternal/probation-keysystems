@@ -4,7 +4,6 @@
     <div class="col-sm-8">
         <h1>Название: {{ event.title }}</h1>
 
-        <p><strong>Создатель:</strong> {{ event.owner.user.first_name }}</p>
         {% if event.allow_wife %}<p><strong>Можно с женами</strong></p>{% endif %}
         {% if event.allow_family %}<p><strong>Можно с детьми</strong></p>{% endif %}
         {% if event.for_kids %}<p><strong>Для детей</strong></p>{% endif %}
