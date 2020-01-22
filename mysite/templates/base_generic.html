@@ -17,17 +17,16 @@
                     {% if user.is_authenticated %}
                         {% block sidebar %}
                         
-                        <ul class="sidebar-nav">
-                            <p class="navbar-text navbar-left">Пользователь:
+                        <ul class="list-group">
+                            <li class="list-group-item">Пользователь:
                                 {% if user.is_superuser %}[АДМИН]{% elif user.profile.is_moderator %}[МОДЕРАТОР]{% endif %} {{ user.profile }}
-                            </p>
-                            <br>
-                            <li><a href="{% url 'logout' %}">Выйти</a></li>
-                            <li><a href="{% url 'index' %}">Домашняя страница</a></li>
-                            <li><a href="{% url 'events' %}">Все события</a></li>
-                            <li><a href="{% url 'user-events' %}">Мои события</a></li>
-                            <li><a href="{% url 'account' %}">Аккаунт</a></li>
-                            {% if user.is_superuser %}<li><a href="{% url 'users' %}">Пользователи</a></li>{% endif %}
+                            </li>
+                            <li class="list-group-item"><a href="{% url 'logout' %}">Выйти</a></li>
+                            <li class="list-group-item"><a href="{% url 'index' %}">Домашняя страница</a></li>
+                            <li class="list-group-item"><a href="{% url 'events' %}">Все события</a></li>
+                            <li class="list-group-item"><a href="{% url 'user-events' %}">Мои события</a></li>
+                            <li class="list-group-item"><a href="{% url 'account' %}">Аккаунт</a></li>
+                            {% if user.is_superuser %}<li class="list-group-item"><a href="{% url 'users' %}">Пользователи</a></li>{% endif %}
                         </ul>
                         {% endblock sidebar %}
                         {% else %}
