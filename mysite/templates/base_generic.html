@@ -30,8 +30,6 @@
                             {% if user.is_superuser %}<li class="list-group-item"><a href="{% url 'users' %}">Пользователи</a></li>{% endif %}
                         </ul>
                         {% endblock sidebar %}
-                        {% else %}
-                        <a href="{% url 'login' %}">Click here to login.</a>
                     {% endif %}
                 </div>
                 <div class="col-sm-10">

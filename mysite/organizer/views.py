@@ -16,6 +16,7 @@ class CustomViews(LoginRequiredMixin):
         return render(
             request,
             'index.html',
+            {'user': request.user},
         )
 
 
