@@ -61,3 +61,4 @@ class Participant(models.Model):
                 name='unique_partic',
             ),
         ]
+        unique_together = (('user', 'event'),)
