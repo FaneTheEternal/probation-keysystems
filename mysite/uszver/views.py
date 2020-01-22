@@ -67,7 +67,7 @@ class UserCreate(LoginRequiredMixin, CreateView):
         'email',
     ]
 
-    template_name = 'organizer/user_form.html'
+    template_name = 'uszver/user_form.html'
 
     def form_valid(self, form):
         user = self.request.user
