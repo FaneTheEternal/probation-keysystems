@@ -55,12 +55,9 @@ class Participant(models.Model):
         )
 
     class Meta:
-        """
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'event'],
                 name='unique_partic',
             ),
         ]
-        """
-        unique_together = (('user', 'event'),)
