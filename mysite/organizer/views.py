@@ -45,7 +45,9 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
         event = context['event']
 
         if 'i-do' in request.POST:
-            if event.number_of_participants == event.participant_set.count():
+            imp = event.number_of_participants == event.participant_set.count()
+            imp |= event.is_past()
+            if imp:
                 return redirect(
                    'missing-space-event',
                    pk=event.id,

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.timezone import now
 
+import datetime
+
 
 class Event(models.Model):
     owner = models.ForeignKey(
@@ -32,6 +34,9 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse("event-detail", args=[str(self.id)])
+
+    def is_past(self):
+        return self.event_date < datetime.date.today()
 
     class Meta:
         ordering = ['-event_date', 'title']

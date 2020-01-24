@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 {% block content %}
     <div class="sm-col-8">
-        <h4>Места кончились.</h4>
+        <h4>Места кончились и/или событие прошло.</h4>
         <form action="{% url 'event-detail' pk=pk %}">
             <button type="submit" class="btn btn-primary">Понял</button>
         </form>
