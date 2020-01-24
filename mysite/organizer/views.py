@@ -13,6 +13,11 @@ class CustomViews(LoginRequiredMixin):
     Some custom general purpose views
     """
     def index(request):
+        if not request.user.is_authenticated:
+            return redirect(
+                'login',
+                permanent=True,
+            )
         return render(
             request,
             'index.html',
