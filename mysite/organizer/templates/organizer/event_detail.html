@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-    <div class="col-sm-8">
+    <div class="col-sm-10">
         <h1>Название: {{ event.title }}</h1>
 
         {% if event.allow_wife %}<p><strong>Можно с женами</strong></p>{% endif %}
@@ -19,7 +19,7 @@
         {% if event.some_properties %}<p>{{ event.some_properties }}</p>{% endif %}
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-sm-10">
         
     <form action="" method="POST">
         {% csrf_token %}
@@ -36,31 +36,61 @@
         <br>
 
         {% if user.id == event.owner.id or user.profile.is_moderator %}
-        <p>
-            <a href="{% url 'event-update' pk=event.id %}">Изменить</a> | 
-            <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>
-        </p>
-        {% if event.participant_set.all %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">Участник</th>
-                        <th scope="col">Подтверждение</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for partic in event.participant_set.all %}
-                    <tr>
-                        <th scope="row">{{ partic.id }}</th>
-                        <td>{{ partic }}</td>
-                        <td><a href="{% url 'toggle-confirm' pk=partic.id %}">{% if partic.confirm %}Отмена{% else %}Подтвердить{% endif %}</a></td>
-                    </tr>
-                    {% endfor %}
+            <p>
+                <a href="{% url 'event-update' pk=event.id %}">Изменить</a> | 
+                <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>
+            </p>
 
-                </tbody>
-            </table>
-        {% endif %}
+            <div class="col-sm-5">
+                <h4 align="center">Все участники</h4>
+                {% if event.participant_set.all %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Участник</th>
+                            <th scope="col">Подтверждение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for partic in event.participant_set.all %}
+                        <tr>
+                            <th scope="row">{{ partic.id }}</th>
+                            <td>{{ partic }}</td>
+                            <td><a href="{% url 'toggle-confirm' pk=partic.id %}">{% if partic.confirm %}Отмена{% else %}Подтвердить{% endif %}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
+            <div class="col-sm-5">
+                {% if event.participant_set.all %}
+                <h4 align="center">Подтвержденные участники</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Участник</th>
+                            <th scope="col">Подтверждение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for partic in event.participant_set.all %}
+                            {% if partic.confirm %}
+                                <tr>
+                                    <th scope="row">{{ partic.id }}</th>
+                                    <td>{{ partic }}</td>
+                                    <td><a href="{% url 'toggle-confirm' pk=partic.id %}">{% if partic.confirm %}Отмена{% else %}Подтвердить{% endif %}</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
         {% endif %}
     </form>
 
