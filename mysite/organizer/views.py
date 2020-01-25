@@ -4,7 +4,9 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
+
 from .models import Participant, Event
+from .forms import EventForm
 
 
 # Create your views here.
@@ -78,59 +80,23 @@ class EventDetailView(LoginRequiredMixin, generic.DetailView):
 
 class EventCreate(LoginRequiredMixin, CreateView):
     model = Event
-    fields = [
-        'title',
-        'allow_wife',
-        'allow_family',
-        'for_kids',
-        'number_of_participants',
-        'event_date',
-        'prepay_date',
-        'personal_transportation',
-        'company_transport',
-        'company_transport_size',
-        'main_price',
-        'other_prices',
-        'deposit',
-        'some_properties',
-    ]
+    form_class = EventForm
 
     def form_valid(self, form):
-        user = self.request.user
-        if not user.profile.is_moderator:
+        if not self.request.user.profile.is_moderator:
             raise PermissionDenied
-        obj = form.save(commit=False)
-        obj.owner = user
-        obj.save()
-        return redirect('event-detail', pk=obj.id, permanent=True)
+        form.instance.owner = self.request.user
+        return super(EventCreate, self).form_valid(form)
 
 
 class EventUpdate(LoginRequiredMixin, UpdateView):
     model = Event
-    fields = [
-        'title',
-        'allow_wife',
-        'allow_family',
-        'for_kids',
-        'number_of_participants',
-        'event_date',
-        'prepay_date',
-        'personal_transportation',
-        'company_transport',
-        'company_transport_size',
-        'main_price',
-        'other_prices',
-        'deposit',
-        'some_properties',
-    ]
+    form_class = EventForm
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        user = self.request.user
-        if not user.profile.is_moderator:
+        if not self.request.user.profile.is_moderator:
             raise PermissionDenied
-        obj.save()
-        return redirect('event-detail', pk=obj.id, permanent=True)
+        return super(EventUpdate, self).form_valid(form)
 
 
 class EventDelete(LoginRequiredMixin, DeleteView):
