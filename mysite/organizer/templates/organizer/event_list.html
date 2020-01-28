@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-<div class="col-sm-8">
+<div class="col-sm-10">
     <h1>Список событий</h1>
     {% if user.profile.is_moderator %}<a href="{% url 'event-create' %}">Создать событие</a>{% endif %}
     {% if event_list %}

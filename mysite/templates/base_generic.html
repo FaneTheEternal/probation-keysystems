@@ -4,7 +4,7 @@
         <title>Organizer</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
         <!--Добавление статических файлов-->
         <!--TO DO-->
@@ -13,10 +13,51 @@
     <body>
         <div class="container-fluid">
             <div class="row">
+                
+                {% block navbar %}
+                <div class="col-sm-12">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a class="navbar-brand" href="#">Navbar</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'index' %}">Домашняя страница</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'events' %}">Все события</a>
+                                </li>
+                                <li class="nav-item">
+
+                                    <a class="nav-link" href="{% url 'user-events' %}">Мои события</a>
+                                </li>
+                                {% if user.is_superuser %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'users' %}">Пользователи</a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'account' %}">Аккаунт</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+                                </li>
+                            </ul>
+                            <span class="navbar-text">
+                                {% if user.is_superuser %}[АДМИН]{% elif user.profile.is_moderator %}[МОДЕРАТОР]{% endif %} {{ user.profile }}
+                            </span>
+                        </div>
+                    </nav>
+                </div>
+            {% endblock navbar %}
+
                 <div class="col-sm-2">
+                <!--
                     {% if user.is_authenticated %}
-                        {% block sidebar %}
                         
+                        {% block sidebar %}
                         <ul class="list-group">
                             <li class="list-group-item">Пользователь:
                                 {% if user.is_superuser %}[АДМИН]{% elif user.profile.is_moderator %}[МОДЕРАТОР]{% endif %} {{ user.profile }}
@@ -31,6 +72,7 @@
                         </ul>
                         {% endblock sidebar %}
                     {% endif %}
+                    -->
                 </div>
                 <div class="col-sm-10">
 
@@ -59,6 +101,6 @@
         </div>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     </body>
 </html>

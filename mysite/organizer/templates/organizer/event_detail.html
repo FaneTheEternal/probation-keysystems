@@ -31,6 +31,7 @@
         <button type="submit" class="btn btn-success" name="i-do">Я иду</button>
         <!--input type="submit" name="i-do" value="Я иду"-->
         {% endif %}
+    </form>
         
         <br>
         <br>
@@ -41,7 +42,8 @@
                 <a href="{% url 'event-delete' pk=event.id %}">Удалить</a>
             </p>
 
-            <div class="col-sm-5">
+        <div class="row">
+            <div class="col">
                 <h4 align="center">Все участники</h4>
                 {% if event.participant_set.all %}
                 <table class="table">
@@ -65,7 +67,7 @@
                 {% endif %}
             </div>
 
-            <div class="col-sm-5">
+            <div class="col">
                 {% if event.participant_set.all %}
                 <h4 align="center">Подтвержденные участники</h4>
                 <table class="table">
@@ -90,9 +92,9 @@
                 </table>
                 {% endif %}
             </div>
+        </div>
 
         {% endif %}
-    </form>
 
     </div>
 
