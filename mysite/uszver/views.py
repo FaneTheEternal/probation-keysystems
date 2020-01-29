@@ -5,6 +5,8 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
+
 from organizer.models import Participant
 from .models import Profile
 
@@ -59,23 +61,18 @@ class CustomUserViews():
 
 class UserCreate(LoginRequiredMixin, CreateView):
     model = User
-    fields = [
-        'username',
-        'password',
-        'first_name',
-        'last_name',
-        'email',
-    ]
+    form_class = UserCreationForm
 
     template_name = 'uszver/user_form.html'
+
+    success_url = reverse_lazy('users')
 
     def form_valid(self, form):
         user = self.request.user
         if not user.is_superuser:
             raise PermissionDenied
-        obj = form.save(commit=False)
-        obj.save()
-        return redirect('user-detail', pk=obj.id, permanent=True)
+        form.save()
+        return super(UserCreate, self).form_valid(form)
 
 
 class UserUpdate(LoginRequiredMixin, UpdateView):

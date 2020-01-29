@@ -9,12 +9,14 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">Пользователь</th>
+                <th scope="col">Фамилия Имя</th>
             </tr>
         </thead>
         <tbody>
             {% for profile in profile_list %}
                 <tr>
                     <th scope="row">{{ profile.id }}</th>
+                    <td><a href="{{ profile.get_absolute_url }}"> {{ profile.user.username }}</a></td>
                     <td><a href="{{ profile.get_absolute_url }}">{% if profile.user.is_superuser %}[ADMIN]{% elif profile.is_moderator %}[MODERATOR]{% endif %} {{ profile }}</a></td>
                 </tr>
             {% endfor %}
