@@ -20,10 +20,14 @@ class CustomViews(LoginRequiredMixin):
                 'login',
                 permanent=True,
             )
+        obj_list = Event.objects.all()
         return render(
             request,
             'index.html',
-            {'user': request.user},
+            {
+                'user': request.user,
+                'list': obj_list,
+            },
         )
 
 

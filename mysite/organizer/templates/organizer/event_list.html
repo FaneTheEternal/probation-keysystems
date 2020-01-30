@@ -16,7 +16,7 @@
                 <div class="card-header">Событие</div>
                 <div class="card-body">
                     <h5 class="card-title">{{ event.title }} {% if event.is_past %}*Завершилось*{% endif %}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ event.event_date }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{% if obj.is_past %}Было{% else %}Будет{% endif %} {{ event.event_date }}</h6>
                     <p class="card-text">{{ event.some_properties }}</p>
                     <a href="{{ event.get_absolute_url }}" class="card-link">Подробнее...</a>
                 </div>

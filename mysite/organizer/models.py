@@ -38,6 +38,9 @@ class Event(models.Model):
     def is_past(self):
         return self.event_date < datetime.date.today()
 
+    def get_cname(self):
+        return 'event'
+
     class Meta:
         ordering = ['-event_date', 'title']
 

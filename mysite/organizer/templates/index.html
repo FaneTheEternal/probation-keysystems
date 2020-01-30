@@ -1,5 +1,27 @@
 {% extends 'base_generic.html' %}
 {% block content %}
-    Hello world!
-    {% if not user.is_authenticated %}<a href="{% url 'login' %}">Click here to login.</a>{% endif %}
+    <div class="col-sm-10 pt-3">
+    {% if list %}
+
+    <div class="col-sm-10">
+        {% for obj in list %}
+            {% if obj.get_cname  == 'event' %}
+                <div class="card bg-light mb-3 {% if obj.is_past %}border-danger{% endif %}">
+                    <div class="card-header">Событие</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ obj.title }} {% if obj.is_past %}*Завершилось*{% endif %}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{% if obj.is_past %}Было{% else %}Будет{% endif %} {{ obj.event_date }}</h6>
+                        <p class="card-text">{{ obj.some_properties }}</p>
+                        <a href="{{ obj.get_absolute_url }}" class="card-link">Подробнее...</a>
+                    </div>
+                </div>
+            <!--TODO elif Карточка другого типа(опрос)-->
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% else %}
+        <p>Сейчас лента пуста</p>
+    {% endif %}
+</div>
 {% endblock content %}
