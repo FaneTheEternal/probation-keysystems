@@ -2,4 +2,5 @@ myenv
 .vscode
 do_migrate.bat
 db.sqlite3
-__pycache__
+*.pyc
+__pycache__/
