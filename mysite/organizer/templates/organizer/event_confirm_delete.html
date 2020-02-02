@@ -1,8 +1,8 @@
 {% extends 'base_generic.html' %}
 {% block content %}
     <div class="col-sm-8">
-        <h3>Delete event</h3>
-        <p>Are u sure u want to delete the event: {{ event }}</p>
+        <h3>Удаление события</h3>
+        <p>Вы действительно хотите удалить "{{ event }}"?</p>
         <form action="" method="POST">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Удалить</button>
